@@ -208,7 +208,7 @@ public class SwipeableCards: UIView {
         UIView.animateWithDuration(0.3, animations: {
             card.center = finishPoint
         }) { (Bool) in
-            self.delegate?.cards!(self, didLeftRemovedItemAtIndex: self.currentIndex)
+            self.delegate?.cards?(self, didLeftRemovedItemAtIndex: self.currentIndex)
             self.cardSwipedAction(card)
         }
     }
