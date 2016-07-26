@@ -15,68 +15,68 @@ private let kScaleStrength: CGFloat    = 4.0
 private let kScaleMax: CGFloat         = 0.93
 private let kActionMargin: CGFloat     = 120
 
-protocol SwipeableCardsDataSource {
+public protocol SwipeableCardsDataSource {
     func numberOfTotalCards(cards: SwipeableCards) -> Int
     func viewFor(cards:SwipeableCards, index:Int, reusingView: UIView?) -> UIView
 }
-@objc protocol SwipeableCardsDelegate {
+@objc public protocol SwipeableCardsDelegate {
     optional func cards(cards: SwipeableCards, beforeSwipingItemAtIndex index: Int)
     optional func cards(cards: SwipeableCards, didRemovedItemAtIndex index: Int)
     optional func cards(cards: SwipeableCards, didLeftRemovedItemAtIndex index: Int)
     optional func cards(cards: SwipeableCards, didRightRemovedItemAtIndex index: Int)
 }
 
-class SwipeableCards: UIView {
-    var dataSource: SwipeableCardsDataSource? {
+public class SwipeableCards: UIView {
+    public var dataSource: SwipeableCardsDataSource? {
         didSet {
             reloadData()
         }
     }
-    var delegate: SwipeableCardsDelegate?
+    public var delegate: SwipeableCardsDelegate?
     /// Default is true
-    var showedCyclically = true {
+    public var showedCyclically = true {
         didSet {
             reloadData()
         }
     }
     /// We will creat this number of views, so not too many; default is 3
-    var numberOfVisibleItems = 3 {
+    public var numberOfVisibleItems = 3 {
         didSet {
             reloadData()
         }
     }
     /// Offset for the next card to the current card, (it will decide the cards appearance, the top card is on top-left, top, or bottom-right and so on; default is (5, 5)
-    var offset: (horizon: CGFloat, vertical: CGFloat) = (5, 5) {
+    public var offset: (horizon: CGFloat, vertical: CGFloat) = (5, 5) {
         didSet {
             reloadData()
         }
     }
     /// If there is only one card, maybe you don't want to swipe it
-    var swipEnabled = true {
+    public var swipEnabled = true {
         didSet {
             panGestureRecognizer.enabled = swipEnabled
         }
     }
     /// The first visible card on top
-    var topCard: UIView? {
+    public var topCard: UIView? {
         get {
             return visibleCards.first
         }
     }
     
     // Mark - init
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setUp()
     }
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setUp()
     }
     /**
      Refresh to show data source
      */
-    func reloadData() {
+    public func reloadData() {
         currentIndex = 0
         reusingView = nil
         visibleCards.removeAll()
