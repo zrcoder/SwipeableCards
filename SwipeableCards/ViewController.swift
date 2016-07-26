@@ -26,7 +26,7 @@ class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCards
     }
     
     func makeCardsData() {
-        for i in 0..<5 {
+        for i in 0..<100 {
             cardsData.append(i)
         }
     }
