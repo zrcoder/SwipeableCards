@@ -6,8 +6,15 @@ A container of views (like cards) can be dragged!<br>
 There are only visible cards in memory, after you drag and removed the top one, it will be reused as the last one.<br>
 内存中只会生成可见的卡片，顶部的卡片被划走之后，会作为最后一张卡片循环利用。<br>
 
-pod surpported: pod 'SwipeableCards'<br>
-支持pod : pod 'SwipeableCards'<br>
+pod surpported: <br>
+支持pod :<br>
+```
+target ‘xxx’ do
+use_frameworks!
+pod ‘SwipeableCards’
+end
+
+```
 
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/0.png)
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/1.png)
