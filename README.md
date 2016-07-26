@@ -18,7 +18,7 @@ Usage:<br>
 Here is an example:<br>
 用法示例：<br>
 ```
-@IBOutlet weak var cards: SwipeableCards!
+    @IBOutlet weak var cards: SwipeableCards!
     var cardsData = [Int]()
     
     override func viewDidLoad() {
@@ -29,25 +29,9 @@ Here is an example:<br>
     }
     
     func makeCardsData() {
-        for i in 0..<5 {
+        for i in 0..<100 {
             cardsData.append(i)
         }
-    }
-    
-    @IBAction func changeOffset(sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            cards.offset = (5, 5)
-        case 1:
-            cards.offset = (0, 5)
-        case 2:
-            cards.offset = (-5, 5)
-        case 3:
-            cards.offset = (-5, -5)
-        default:
-            break
-        }
-        
     }
     
     // SwipeableCardsDataSource methods
