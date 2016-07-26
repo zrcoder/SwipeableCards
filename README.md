@@ -13,8 +13,10 @@ target ‘xxx’ do
 use_frameworks!
 pod ‘SwipeableCards’
 end
-
 ```
+You can find an Objective-C version here:<br>
+你可以在这里找到Objective-C版：<br>
+[ICards](https://github.com/DingHub/iCards)<br>
 
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/0.png)
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/1.png)
@@ -74,6 +76,3 @@ Here is an example:<br>
     }
 
 ```
-You can find an Objective-C version here:<br>
-你可以在这里找到Objective-C版：<br>
-[ICards](https://github.com/DingHub/iCards)
