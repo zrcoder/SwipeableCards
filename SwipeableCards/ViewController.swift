@@ -79,7 +79,7 @@ class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCards
         return label!
     }
     
-    // SwipeableCardsDelegate
+    // SwipeableCardsDelegate methods
     func cards(cards: SwipeableCards, beforeSwipingItemAtIndex index: Int) {
         print("Begin swiping card \(index)!")
     }
