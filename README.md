@@ -9,15 +9,6 @@ There are only visible cards in memory, after you drag and removed the top one, 
 You can find an Objective-C version here:<br>
 你可以在这里找到Objective-C版：[iCards](https://github.com/DingHub/iCards)<br>
 
-pod surpported: <br>
-支持pod :<br>
-```
-target ‘xxx’ do
-use_frameworks!
-pod ‘SwipeableCards’
-end
-```
-
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/0.png)
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/1.png)
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/3.png)
