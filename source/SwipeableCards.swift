@@ -91,18 +91,24 @@ public class SwipeableCards: UIView {
         layoutCards()
     }
     
-    // Mark - private
-    private func setUp() {
-        self.addGestureRecognizer(panGestureRecognizer)
-    }
+    // Mark - Private
     private var currentIndex = 0
     private var reusingView: UIView? = nil
     private var visibleCards = [UIView]()
     private var swipeEnded = true
-    lazy private var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragAction))
+    private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragAction))
     private var xFromCenter: CGFloat = 0
     private var yFromCenter: CGFloat = 0
     private var originalPoint = CGPointZero
+
+}
+
+// MARK: - Private
+private extension SwipeableCards {
+    
+    private func setUp() {
+        self.addGestureRecognizer(panGestureRecognizer)
+    }
     
     @objc private func layoutCards() {
         let count = visibleCards.count
@@ -192,7 +198,7 @@ public class SwipeableCards: UIView {
                 card.transform = CGAffineTransformMakeRotation(0)
             }
         }
-
+        
     }
     private func rightActionFor(card: UIView) {
         let finishPoint = CGPoint(x: 500, y: 2.0 * yFromCenter + originalPoint.y)
