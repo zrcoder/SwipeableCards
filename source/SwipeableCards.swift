@@ -106,11 +106,11 @@ public class SwipeableCards: UIView {
 // MARK: - Private
 private extension SwipeableCards {
     
-    private func setUp() {
+    func setUp() {
         self.addGestureRecognizer(panGestureRecognizer)
     }
     
-    @objc private func layoutCards() {
+    @objc func layoutCards() {
         let count = visibleCards.count
         guard count > 0 else {
             return
@@ -152,7 +152,7 @@ private extension SwipeableCards {
         }
     }
     
-    @objc private func dragAction(gestureRecognizer: UIPanGestureRecognizer) {
+    @objc func dragAction(gestureRecognizer: UIPanGestureRecognizer) {
         guard visibleCards.count > 0 else {
             return
         }
@@ -186,7 +186,7 @@ private extension SwipeableCards {
             }
         }
     }
-    private func aflerSwipedAction(card: UIView) {
+    func aflerSwipedAction(card: UIView) {
         if xFromCenter > kActionMargin {
             rightActionFor(card)
         } else if xFromCenter < -kActionMargin {
@@ -200,7 +200,7 @@ private extension SwipeableCards {
         }
         
     }
-    private func rightActionFor(card: UIView) {
+    func rightActionFor(card: UIView) {
         let finishPoint = CGPoint(x: 500, y: 2.0 * yFromCenter + originalPoint.y)
         UIView.animateWithDuration(0.3, animations: {
             card.center = finishPoint
@@ -209,7 +209,7 @@ private extension SwipeableCards {
             self.cardSwipedAction(card)
         }
     }
-    private func leftActionFor(card: UIView) {
+    func leftActionFor(card: UIView) {
         let finishPoint = CGPoint(x: -500, y: 2.0 * yFromCenter + originalPoint.y)
         UIView.animateWithDuration(0.3, animations: {
             card.center = finishPoint
@@ -219,7 +219,7 @@ private extension SwipeableCards {
         }
     }
     
-    private func cardSwipedAction(card: UIView) {
+    func cardSwipedAction(card: UIView) {
         swipeEnded = true
         card.transform = CGAffineTransformMakeRotation(0)
         card.center = originalPoint
