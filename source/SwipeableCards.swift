@@ -8,12 +8,14 @@
 
 import UIKit
 
-private let kRotationStrength: CGFloat = 320
-private let kRotationMax: CGFloat      = 1.0
-private let kRotationAngle: CGFloat    = CGFloat(M_PI / 8)
-private let kScaleStrength: CGFloat    = 4.0
-private let kScaleMax: CGFloat         = 0.93
-private let kActionMargin: CGFloat     = 120
+private struct Const {
+    static let rotationStrength: CGFloat = 320
+    static let rotationMax: CGFloat      = 1.0
+    static let rotationAngle: CGFloat    = CGFloat(M_PI / 8)
+    static let scaleStrength: CGFloat    = 4.0
+    static let scaleMax: CGFloat         = 0.93
+    static let actionMargin: CGFloat     = 120
+}
 
 public protocol SwipeableCardsDataSource {
     func numberOfTotalCards(cards: SwipeableCards) -> Int
@@ -27,11 +29,13 @@ public protocol SwipeableCardsDataSource {
 }
 
 public class SwipeableCards: UIView {
+    /// DataSource
     public var dataSource: SwipeableCardsDataSource? {
         didSet {
             reloadData()
         }
     }
+    /// Delegate
     public var delegate: SwipeableCardsDelegate?
     /// Default is true
     public var showedCyclically = true {
@@ -105,26 +109,20 @@ public class SwipeableCards: UIView {
 
 // MARK: - Private
 private extension SwipeableCards {
-    
     func setUp() {
         self.addGestureRecognizer(panGestureRecognizer)
     }
-    
     @objc func layoutCards() {
         let count = visibleCards.count
         guard count > 0 else {
             return
         }
-        
         self.subviews.forEach { view in
             view.removeFromSuperview()
         }
-        
         self.layoutIfNeeded()
-        
         let width = frame.size.width
         let height = frame.size.height
-        
         if let lastCard = visibleCards.last {
             let cardWidth = lastCard.frame.size.width
             let cardHeight = lastCard.frame.size.height
@@ -151,7 +149,6 @@ private extension SwipeableCards {
             }
         }
     }
-    
     @objc func dragAction(gestureRecognizer: UIPanGestureRecognizer) {
         guard visibleCards.count > 0 else {
             return
@@ -172,9 +169,9 @@ private extension SwipeableCards {
             case .Began:
                 originalPoint = firstCard.center
             case .Changed:
-                let rotationStrength: CGFloat = min(xFromCenter / kRotationStrength, kRotationMax)
-                let rotationAngel = kRotationAngle * rotationStrength
-                let scale = max(1.0 - fabs(rotationStrength) / kScaleStrength, kScaleMax)
+                let rotationStrength: CGFloat = min(xFromCenter / Const.rotationStrength, Const.rotationMax)
+                let rotationAngel = Const.rotationAngle * rotationStrength
+                let scale = max(1.0 - fabs(rotationStrength) / Const.scaleStrength, Const.scaleMax)
                 firstCard.center = CGPoint(x: originalPoint.x + xFromCenter, y: originalPoint.y + yFromCenter)
                 let transform = CGAffineTransformMakeRotation(rotationAngel)
                 let scaleTransform = CGAffineTransformScale(transform, scale, scale)
@@ -187,9 +184,9 @@ private extension SwipeableCards {
         }
     }
     func aflerSwipedAction(card: UIView) {
-        if xFromCenter > kActionMargin {
+        if xFromCenter > Const.actionMargin {
             rightActionFor(card)
-        } else if xFromCenter < -kActionMargin {
+        } else if xFromCenter < -Const.actionMargin {
             leftActionFor(card)
         } else {
             self.swipeEnded = true
@@ -218,7 +215,6 @@ private extension SwipeableCards {
             self.cardSwipedAction(card)
         }
     }
-    
     func cardSwipedAction(card: UIView) {
         swipeEnded = true
         card.transform = CGAffineTransformMakeRotation(0)
