@@ -6,6 +6,9 @@ A container of views (like cards) can be dragged!<br>
 There are only visible cards in memory, after you drag and removed the top one, it will be reused as the last one.<br>
 内存中只会生成可见的卡片，顶部的卡片被划走之后，会作为最后一张卡片循环利用。<br>
 
+Swift3 branch is ready, I'll combine the branch to master when the final official version of Swift3 released.<br>
+Swift3分支已准备好，在Swift3正式版发布后会合并到master分支。<br>
+
 You can find an Objective-C version here:<br>
 你可以在这里找到Objective-C版：[iCards](https://github.com/DingHub/iCards)<br>
 
