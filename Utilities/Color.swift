@@ -14,7 +14,7 @@ public extension Color {
      Creates a color of random red, green and blue
      - returns: random color
      */
-    public static func randomColor() -> Color {
+    public static var random: Color {
         let red = CGFloat(arc4random_uniform(256)) / 255.0
         let green = CGFloat(arc4random_uniform(256)) / 255.0
         let blue = CGFloat(arc4random_uniform(256)) / 255.0
@@ -26,8 +26,8 @@ public extension Color {
      - parameter hexString: A hexa-decimal color string representation.
      */
     public convenience init(hexString: String) {
-        let hexString = hexString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        let scanner   = NSScanner(string: hexString)
+        let hexString = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let scanner   = Scanner(string: hexString)
         
         if (hexString.hasPrefix("#")) {
             scanner.scanLocation = 1
@@ -35,7 +35,7 @@ public extension Color {
         
         var color: UInt32 = 0
         
-        if scanner.scanHexInt(&color) {
+        if scanner.scanHexInt32(&color) {
             self.init(hex: color)
         } else {
             self.init(hex: 0x000000)

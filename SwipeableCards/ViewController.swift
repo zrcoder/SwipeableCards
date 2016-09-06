@@ -9,8 +9,9 @@
 import UIKit
 
 class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCardsDelegate, UITableViewDelegate {
-
     
+    @IBOutlet weak var cardsHeight: NSLayoutConstraint!
+    @IBOutlet weak var cardsWidth: NSLayoutConstraint!
     @IBOutlet weak var cards: SwipeableCards!
     var cardsData = [Int]()
     
@@ -31,7 +32,7 @@ class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCards
         }
     }
     
-    @IBAction func changeOffset(sender: UISegmentedControl) {
+    @IBAction func changeOffset(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             cards.offset = (5, 5)
@@ -46,7 +47,7 @@ class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCards
         }
         
     }
-    @IBAction func changeNumber(sender: UISegmentedControl) {
+    @IBAction func changeNumber(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             cards.numberOfVisibleItems = 3
@@ -58,38 +59,38 @@ class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCards
             break
         }
     }
-    @IBAction func changeSycllyState(sender: UISwitch) {
-        cards.showedCyclically = sender.on
+    @IBAction func changeSycllyState(_ sender: UISwitch) {
+        cards.showedCyclically = sender.isOn
     }
+    
     // SwipeableCardsDataSource methods
-    func numberOfTotalCards(cards: SwipeableCards) -> Int {
+    func numberOfTotalCards(_ cards: SwipeableCards) -> Int {
         return cardsData.count
     }
-    func viewFor(cards: SwipeableCards, index: Int, reusingView: UIView?) -> UIView {
+    func viewFor(_ cards: SwipeableCards, index: Int, reusingView: UIView?) -> UIView {
         var label: UILabel? = view as? UILabel
         if label == nil {
-            let size = cards.frame.size
-            let labelFrame = CGRect(x: 0, y: 0, width: size.width - 30, height: size.height - 20)
+            let labelFrame = CGRect(x: 0, y: 0, width: cardsWidth.constant - 30, height: cardsHeight.constant - 20)
             label = UILabel(frame: labelFrame)
-            label!.textAlignment = .Center
+            label!.textAlignment = .center
             label!.layer.cornerRadius = 5
         }
         label!.text = String(cardsData[index])
-        label!.layer.backgroundColor = Color.randomColor().CGColor
+        label!.layer.backgroundColor = Color.random.cgColor
         return label!
     }
     
     // SwipeableCardsDelegate methods
-    func cards(cards: SwipeableCards, beforeSwipingItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, beforeSwipingItemAtIndex index: Int) {
         print("Begin swiping card \(index)!")
     }
-    func cards(cards: SwipeableCards, didLeftRemovedItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, didLeftRemovedItemAtIndex index: Int) {
         print("<--\(index)")
     }
-    func cards(cards: SwipeableCards, didRightRemovedItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, didRightRemovedItemAtIndex index: Int) {
         print("\(index)-->")
     }
-    func cards(cards: SwipeableCards, didRemovedItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, didRemovedItemAtIndex index: Int) {
         print("index of removed card:\(index)")
     }
 
