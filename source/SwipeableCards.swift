@@ -11,21 +11,21 @@ import UIKit
 private struct Const {
     static let rotationStrength: CGFloat = 320
     static let rotationMax: CGFloat      = 1.0
-    static let rotationAngle: CGFloat    = CGFloat(M_PI / 8)
+    static let rotationAngle: CGFloat    = .pi * 0.125
     static let scaleStrength: CGFloat    = 4.0
     static let scaleMax: CGFloat         = 0.93
     static let actionMargin: CGFloat     = 120
 }
 
 public protocol SwipeableCardsDataSource {
-    func numberOfTotalCards(cards: SwipeableCards) -> Int
-    func viewFor(cards:SwipeableCards, index:Int, reusingView: UIView?) -> UIView
+    func numberOfTotalCards(_ cards: SwipeableCards) -> Int
+    func viewFor(_ cards:SwipeableCards, index:Int, reusingView: UIView?) -> UIView
 }
 @objc public protocol SwipeableCardsDelegate {
-    optional func cards(cards: SwipeableCards, beforeSwipingItemAtIndex index: Int)
-    optional func cards(cards: SwipeableCards, didRemovedItemAtIndex index: Int)
-    optional func cards(cards: SwipeableCards, didLeftRemovedItemAtIndex index: Int)
-    optional func cards(cards: SwipeableCards, didRightRemovedItemAtIndex index: Int)
+    @objc optional func cards(_ cards: SwipeableCards, beforeSwipingItemAtIndex index: Int)
+    @objc optional func cards(_ cards: SwipeableCards, didRemovedItemAtIndex index: Int)
+    @objc optional func cards(_ cards: SwipeableCards, didLeftRemovedItemAtIndex index: Int)
+    @objc optional func cards(_ cards: SwipeableCards, didRightRemovedItemAtIndex index: Int)
 }
 
 public class SwipeableCards: UIView {
@@ -58,7 +58,7 @@ public class SwipeableCards: UIView {
     /// If there is only one card, maybe you don't want to swipe it
     public var swipEnabled = true {
         didSet {
-            panGestureRecognizer.enabled = swipEnabled
+            panGestureRecognizer.isEnabled = swipEnabled
         }
     }
     /// The first visible card on top
@@ -96,14 +96,14 @@ public class SwipeableCards: UIView {
     }
     
     // Mark - Private
-    private var currentIndex = 0
-    private var reusingView: UIView? = nil
-    private var visibleCards = [UIView]()
-    private var swipeEnded = true
-    private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragAction))
-    private var xFromCenter: CGFloat = 0
-    private var yFromCenter: CGFloat = 0
-    private var originalPoint = CGPointZero
+    fileprivate var currentIndex = 0
+    fileprivate var reusingView: UIView? = nil
+    fileprivate var visibleCards = [UIView]()
+    fileprivate var swipeEnded = true
+    fileprivate lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragAction))
+    fileprivate var xFromCenter: CGFloat = 0
+    fileprivate var yFromCenter: CGFloat = 0
+    fileprivate var originalPoint = CGPoint.zero
 
 }
 
@@ -112,15 +112,15 @@ private extension SwipeableCards {
     func setUp() {
         self.addGestureRecognizer(panGestureRecognizer)
     }
-    @objc func layoutCards() {
+    func layoutCards() {
         let count = visibleCards.count
         guard count > 0 else {
             return
         }
-        self.subviews.forEach { view in
+        subviews.forEach { view in
             view.removeFromSuperview()
         }
-        self.layoutIfNeeded()
+        layoutIfNeeded()
         let width = frame.size.width
         let height = frame.size.height
         if let lastCard = visibleCards.last {
@@ -137,7 +137,7 @@ private extension SwipeableCards {
                     firstCardY += CGFloat(visibleNumber - 1) * fabs(offset.vertical)
                 }
                 
-                UIView.animateWithDuration(0.08) {
+                UIView.animate(withDuration: 0.08) {
                     for i in 0..<count {
                         let index = count - 1 - i   //add cards form back to front
                         let card = self.visibleCards[index]
@@ -149,7 +149,7 @@ private extension SwipeableCards {
             }
         }
     }
-    @objc func dragAction(gestureRecognizer: UIPanGestureRecognizer) {
+    @objc func dragAction(_ gestureRecognizer: UIPanGestureRecognizer) {
         guard visibleCards.count > 0 else {
             return
         }
@@ -163,61 +163,61 @@ private extension SwipeableCards {
             delegate?.cards?(self, beforeSwipingItemAtIndex: currentIndex)
         }
         if let firstCard = visibleCards.first {
-            xFromCenter = gestureRecognizer.translationInView(firstCard).x  // positive for right swipe, negative for left
-            yFromCenter = gestureRecognizer.translationInView(firstCard).y  // positive for up, negative for down
+            xFromCenter = gestureRecognizer.translation(in: firstCard).x  // positive for right swipe, negative for left
+            yFromCenter = gestureRecognizer.translation(in: firstCard).y  // positive for up, negative for down
             switch gestureRecognizer.state {
-            case .Began:
+            case .began:
                 originalPoint = firstCard.center
-            case .Changed:
+            case .changed:
                 let rotationStrength: CGFloat = min(xFromCenter / Const.rotationStrength, Const.rotationMax)
                 let rotationAngel = Const.rotationAngle * rotationStrength
                 let scale = max(1.0 - fabs(rotationStrength) / Const.scaleStrength, Const.scaleMax)
                 firstCard.center = CGPoint(x: originalPoint.x + xFromCenter, y: originalPoint.y + yFromCenter)
-                let transform = CGAffineTransformMakeRotation(rotationAngel)
-                let scaleTransform = CGAffineTransformScale(transform, scale, scale)
+                let transform = CGAffineTransform(rotationAngle: rotationAngel)
+                let scaleTransform = transform.scaledBy(x: scale, y: scale)
                 firstCard.transform = scaleTransform
-            case .Ended:
+            case .ended:
                 aflerSwipedAction(firstCard)
             default:
                 break
             }
         }
     }
-    func aflerSwipedAction(card: UIView) {
+    func aflerSwipedAction(_ card: UIView) {
         if xFromCenter > Const.actionMargin {
             rightActionFor(card)
         } else if xFromCenter < -Const.actionMargin {
             leftActionFor(card)
         } else {
             self.swipeEnded = true
-            UIView.animateWithDuration(0.3) {
+            UIView.animate(withDuration: 0.3) {
                 card.center = self.originalPoint
-                card.transform = CGAffineTransformMakeRotation(0)
+                card.transform = CGAffineTransform(rotationAngle: 0)
             }
         }
         
     }
-    func rightActionFor(card: UIView) {
+    func rightActionFor(_ card: UIView) {
         let finishPoint = CGPoint(x: 500, y: 2.0 * yFromCenter + originalPoint.y)
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             card.center = finishPoint
         }) { (Bool) in
             self.delegate?.cards?(self, didRightRemovedItemAtIndex: self.currentIndex)
             self.cardSwipedAction(card)
         }
     }
-    func leftActionFor(card: UIView) {
+    func leftActionFor(_ card: UIView) {
         let finishPoint = CGPoint(x: -500, y: 2.0 * yFromCenter + originalPoint.y)
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             card.center = finishPoint
         }) { (Bool) in
             self.delegate?.cards?(self, didLeftRemovedItemAtIndex: self.currentIndex)
             self.cardSwipedAction(card)
         }
     }
-    func cardSwipedAction(card: UIView) {
+    func cardSwipedAction(_ card: UIView) {
         swipeEnded = true
-        card.transform = CGAffineTransformMakeRotation(0)
+        card.transform = CGAffineTransform(rotationAngle: 0)
         card.center = originalPoint
         let cardFrame = card.frame
         reusingView = card
