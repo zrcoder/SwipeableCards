@@ -28,41 +28,41 @@ public protocol SwipeableCardsDataSource {
     @objc optional func cards(_ cards: SwipeableCards, didRightRemovedItemAtIndex index: Int)
 }
 
-public class SwipeableCards: UIView {
+open class SwipeableCards: UIView {
     /// DataSource
-    public var dataSource: SwipeableCardsDataSource? {
+    open var dataSource: SwipeableCardsDataSource? {
         didSet {
             reloadData()
         }
     }
     /// Delegate
-    public var delegate: SwipeableCardsDelegate?
+    open var delegate: SwipeableCardsDelegate?
     /// Default is true
-    public var showedCyclically = true {
+    open var showedCyclically = true {
         didSet {
             reloadData()
         }
     }
     /// We will creat this number of views, so not too many; default is 3
-    public var numberOfVisibleItems = 3 {
+    open var numberOfVisibleItems = 3 {
         didSet {
             reloadData()
         }
     }
     /// Offset for the next card to the current card, (it will decide the cards appearance, the top card is on top-left, top, or bottom-right and so on; default is (5, 5)
-    public var offset: (horizon: CGFloat, vertical: CGFloat) = (5, 5) {
+    open var offset: (horizon: CGFloat, vertical: CGFloat) = (5, 5) {
         didSet {
             reloadData()
         }
     }
     /// If there is only one card, maybe you don't want to swipe it
-    public var swipEnabled = true {
+    open var swipEnabled = true {
         didSet {
             panGestureRecognizer.isEnabled = swipEnabled
         }
     }
     /// The first visible card on top
-    public var topCard: UIView? {
+    open var topCard: UIView? {
         get {
             return visibleCards.first
         }
@@ -80,7 +80,7 @@ public class SwipeableCards: UIView {
     /**
      Refresh to show data source
      */
-    public func reloadData() {
+    open func reloadData() {
         currentIndex = 0
         reusingView = nil
         visibleCards.removeAll()
