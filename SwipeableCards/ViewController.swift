@@ -67,7 +67,7 @@ class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCards
     func numberOfTotalCards(in cards: SwipeableCards) -> Int {
         return cardsData.count
     }
-    func viewFor(_ cards: SwipeableCards, index: Int, reusingView: UIView?) -> UIView {
+    func view(for cards: SwipeableCards, index: Int, reusingView: UIView?) -> UIView {
         var label: UILabel? = view as? UILabel
         if label == nil {
             let labelFrame = CGRect(x: 0, y: 0, width: cardsWidth.constant - 30, height: cardsHeight.constant - 20)

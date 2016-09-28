@@ -19,7 +19,7 @@ private struct Const {
 
 public protocol SwipeableCardsDataSource {
     func numberOfTotalCards(in cards: SwipeableCards) -> Int
-    func viewFor(_ cards:SwipeableCards, index:Int, reusingView: UIView?) -> UIView
+    func view(for cards:SwipeableCards, index:Int, reusingView: UIView?) -> UIView
 }
 @objc public protocol SwipeableCardsDelegate {
     @objc optional func cards(_ cards: SwipeableCards, beforeSwipingItemAt index: Int)
@@ -87,7 +87,7 @@ open class SwipeableCards: UIView {
         if let totalNumber = dataSource?.numberOfTotalCards(in: self) {
             let visibleNumber = numberOfVisibleItems > totalNumber ? totalNumber : numberOfVisibleItems
             for i in 0..<visibleNumber {
-                if let card = dataSource?.viewFor(self, index: i, reusingView: reusingView) {
+                if let card = dataSource?.view(for: self, index: i, reusingView: reusingView) {
                     visibleCards.append(card)
                 }
             }
@@ -227,7 +227,7 @@ private extension SwipeableCards {
         if let totalNumber = dataSource?.numberOfTotalCards(in: self) {
             var newIndex = currentIndex + numberOfVisibleItems
             if newIndex < totalNumber {
-                newCard = dataSource?.viewFor(self, index: newIndex, reusingView: reusingView)
+                newCard = dataSource?.view(for: self, index: newIndex, reusingView: reusingView)
             } else {
                 if showedCyclically {
                     if totalNumber==1 {
@@ -235,7 +235,7 @@ private extension SwipeableCards {
                     } else {
                         newIndex %= totalNumber
                     }
-                    newCard = dataSource?.viewFor(self, index: newIndex, reusingView: reusingView)
+                    newCard = dataSource?.view(for: self, index: newIndex, reusingView: reusingView)
                 }
             }
             if let card = newCard {
