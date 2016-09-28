@@ -64,7 +64,7 @@ class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCards
     }
     
     // SwipeableCardsDataSource methods
-    func numberOfTotalCards(_ cards: SwipeableCards) -> Int {
+    func numberOfTotalCards(in cards: SwipeableCards) -> Int {
         return cardsData.count
     }
     func viewFor(_ cards: SwipeableCards, index: Int, reusingView: UIView?) -> UIView {
@@ -81,16 +81,16 @@ class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCards
     }
     
     // SwipeableCardsDelegate methods
-    func cards(_ cards: SwipeableCards, beforeSwipingItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, beforeSwipingItemAt index: Int) {
         print("Begin swiping card \(index)!")
     }
-    func cards(_ cards: SwipeableCards, didLeftRemovedItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, didLeftRemovedItemAt index: Int) {
         print("<--\(index)")
     }
-    func cards(_ cards: SwipeableCards, didRightRemovedItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, didRightRemovedItemAt index: Int) {
         print("\(index)-->")
     }
-    func cards(_ cards: SwipeableCards, didRemovedItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, didRemovedItemAt index: Int) {
         print("index of removed card:\(index)")
     }
 

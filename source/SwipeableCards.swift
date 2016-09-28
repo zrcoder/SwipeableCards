@@ -18,14 +18,14 @@ private struct Const {
 }
 
 public protocol SwipeableCardsDataSource {
-    func numberOfTotalCards(_ cards: SwipeableCards) -> Int
+    func numberOfTotalCards(in cards: SwipeableCards) -> Int
     func viewFor(_ cards:SwipeableCards, index:Int, reusingView: UIView?) -> UIView
 }
 @objc public protocol SwipeableCardsDelegate {
-    @objc optional func cards(_ cards: SwipeableCards, beforeSwipingItemAtIndex index: Int)
-    @objc optional func cards(_ cards: SwipeableCards, didRemovedItemAtIndex index: Int)
-    @objc optional func cards(_ cards: SwipeableCards, didLeftRemovedItemAtIndex index: Int)
-    @objc optional func cards(_ cards: SwipeableCards, didRightRemovedItemAtIndex index: Int)
+    @objc optional func cards(_ cards: SwipeableCards, beforeSwipingItemAt index: Int)
+    @objc optional func cards(_ cards: SwipeableCards, didRemovedItemAt index: Int)
+    @objc optional func cards(_ cards: SwipeableCards, didLeftRemovedItemAt index: Int)
+    @objc optional func cards(_ cards: SwipeableCards, didRightRemovedItemAt index: Int)
 }
 
 open class SwipeableCards: UIView {
@@ -84,7 +84,7 @@ open class SwipeableCards: UIView {
         currentIndex = 0
         reusingView = nil
         visibleCards.removeAll()
-        if let totalNumber = dataSource?.numberOfTotalCards(self) {
+        if let totalNumber = dataSource?.numberOfTotalCards(in: self) {
             let visibleNumber = numberOfVisibleItems > totalNumber ? totalNumber : numberOfVisibleItems
             for i in 0..<visibleNumber {
                 if let card = dataSource?.viewFor(self, index: i, reusingView: reusingView) {
@@ -126,7 +126,7 @@ private extension SwipeableCards {
         if let lastCard = visibleCards.last {
             let cardWidth = lastCard.frame.size.width
             let cardHeight = lastCard.frame.size.height
-            if let totalNumber = dataSource?.numberOfTotalCards(self) {
+            if let totalNumber = dataSource?.numberOfTotalCards(in: self) {
                 let visibleNumber = numberOfVisibleItems > totalNumber ? totalNumber : numberOfVisibleItems
                 var firstCardX = (width - cardWidth - CGFloat(visibleNumber - 1) * fabs(offset.horizon)) * 0.5
                 if offset.horizon < 0 {
@@ -153,14 +153,14 @@ private extension SwipeableCards {
         guard visibleCards.count > 0 else {
             return
         }
-        if let totalNumber = dataSource?.numberOfTotalCards(self) {
+        if let totalNumber = dataSource?.numberOfTotalCards(in: self) {
             if currentIndex > totalNumber - 1 {
                 currentIndex = 0
             }
         }
         if swipeEnded {
             swipeEnded = false
-            delegate?.cards?(self, beforeSwipingItemAtIndex: currentIndex)
+            delegate?.cards?(self, beforeSwipingItemAt: currentIndex)
         }
         if let firstCard = visibleCards.first {
             xFromCenter = gestureRecognizer.translation(in: firstCard).x  // positive for right swipe, negative for left
@@ -202,7 +202,7 @@ private extension SwipeableCards {
         UIView.animate(withDuration: 0.3, animations: {
             card.center = finishPoint
         }) { (Bool) in
-            self.delegate?.cards?(self, didRightRemovedItemAtIndex: self.currentIndex)
+            self.delegate?.cards?(self, didRightRemovedItemAt: self.currentIndex)
             self.cardSwipedAction(card)
         }
     }
@@ -211,7 +211,7 @@ private extension SwipeableCards {
         UIView.animate(withDuration: 0.3, animations: {
             card.center = finishPoint
         }) { (Bool) in
-            self.delegate?.cards?(self, didLeftRemovedItemAtIndex: self.currentIndex)
+            self.delegate?.cards?(self, didLeftRemovedItemAt: self.currentIndex)
             self.cardSwipedAction(card)
         }
     }
@@ -224,7 +224,7 @@ private extension SwipeableCards {
         visibleCards.removeFirst()
         card.removeFromSuperview()
         var newCard: UIView?
-        if let totalNumber = dataSource?.numberOfTotalCards(self) {
+        if let totalNumber = dataSource?.numberOfTotalCards(in: self) {
             var newIndex = currentIndex + numberOfVisibleItems
             if newIndex < totalNumber {
                 newCard = dataSource?.viewFor(self, index: newIndex, reusingView: reusingView)
@@ -242,7 +242,7 @@ private extension SwipeableCards {
                 card.frame = cardFrame
                 visibleCards.append(card)
             }
-            delegate?.cards?(self, didRemovedItemAtIndex: currentIndex)
+            delegate?.cards?(self, didRemovedItemAt: currentIndex)
             currentIndex += 1
             layoutCards()
         }
