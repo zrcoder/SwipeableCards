@@ -35,34 +35,33 @@ Here is an example:<br>
     }
     
     // SwipeableCardsDataSource methods
-    func numberOfTotalCards(cards: SwipeableCards) -> Int {
+    func numberOfTotalCards(in cards: SwipeableCards) -> Int {
         return cardsData.count
     }
-    func viewFor(cards: SwipeableCards, index: Int, reusingView: UIView?) -> UIView {
+    func view(for cards: SwipeableCards, index: Int, reusingView: UIView?) -> UIView {
         var label: UILabel? = view as? UILabel
         if label == nil {
-            let size = cards.frame.size
-            let labelFrame = CGRect(x: 0, y: 0, width: size.width - 30, height: size.height - 20)
+            let labelFrame = CGRect(x: 0, y: 0, width: cardsWidth.constant - 30, height: cardsHeight.constant - 20)
             label = UILabel(frame: labelFrame)
-            label!.textAlignment = .Center
+            label!.textAlignment = .center
             label!.layer.cornerRadius = 5
         }
         label!.text = String(cardsData[index])
-        label!.layer.backgroundColor = Color.randomColor().CGColor
+        label!.layer.backgroundColor = Color.random.cgColor
         return label!
     }
     
-    // SwipeableCardsDelegate  methods
-    func cards(cards: SwipeableCards, beforeSwipingItemAtIndex index: Int) {
+    // SwipeableCardsDelegate methods
+    func cards(_ cards: SwipeableCards, beforeSwipingItemAt index: Int) {
         print("Begin swiping card \(index)!")
     }
-    func cards(cards: SwipeableCards, didLeftRemovedItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, didLeftRemovedItemAt index: Int) {
         print("<--\(index)")
     }
-    func cards(cards: SwipeableCards, didRightRemovedItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, didRightRemovedItemAt index: Int) {
         print("\(index)-->")
     }
-    func cards(cards: SwipeableCards, didRemovedItemAtIndex index: Int) {
+    func cards(_ cards: SwipeableCards, didRemovedItemAt index: Int) {
         print("index of removed card:\(index)")
     }
 
