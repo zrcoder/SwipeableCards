@@ -27,7 +27,7 @@ public protocol SwipeableCardsDelegate {
     func cards(_ cards: SwipeableCards, didLeftRemovedItemAt index: Int)
     func cards(_ cards: SwipeableCards, didRightRemovedItemAt index: Int)
 }
-extension SwipeableCardsDelegate {// This extesion makes the methods optionnal~
+extension SwipeableCardsDelegate {// This extesion makes the methods optionnal for use~
     func cards(_ cards: SwipeableCards, beforeSwipingItemAt index: Int) {}
     func cards(_ cards: SwipeableCards, didRemovedItemAt index: Int) {}
     func cards(_ cards: SwipeableCards, didLeftRemovedItemAt index: Int) {}
