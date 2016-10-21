@@ -21,11 +21,17 @@ public protocol SwipeableCardsDataSource {
     func numberOfTotalCards(in cards: SwipeableCards) -> Int
     func view(for cards:SwipeableCards, index:Int, reusingView: UIView?) -> UIView
 }
-@objc public protocol SwipeableCardsDelegate {
-    @objc optional func cards(_ cards: SwipeableCards, beforeSwipingItemAt index: Int)
-    @objc optional func cards(_ cards: SwipeableCards, didRemovedItemAt index: Int)
-    @objc optional func cards(_ cards: SwipeableCards, didLeftRemovedItemAt index: Int)
-    @objc optional func cards(_ cards: SwipeableCards, didRightRemovedItemAt index: Int)
+public protocol SwipeableCardsDelegate {
+    func cards(_ cards: SwipeableCards, beforeSwipingItemAt index: Int)
+    func cards(_ cards: SwipeableCards, didRemovedItemAt index: Int)
+    func cards(_ cards: SwipeableCards, didLeftRemovedItemAt index: Int)
+    func cards(_ cards: SwipeableCards, didRightRemovedItemAt index: Int)
+}
+extension SwipeableCardsDelegate {// This extesion makes the methods optionnal~
+    func cards(_ cards: SwipeableCards, beforeSwipingItemAt index: Int) {}
+    func cards(_ cards: SwipeableCards, didRemovedItemAt index: Int) {}
+    func cards(_ cards: SwipeableCards, didLeftRemovedItemAt index: Int) {}
+    func cards(_ cards: SwipeableCards, didRightRemovedItemAt index: Int) {}
 }
 
 open class SwipeableCards: UIView {
@@ -160,7 +166,7 @@ private extension SwipeableCards {
         }
         if swipeEnded {
             swipeEnded = false
-            delegate?.cards?(self, beforeSwipingItemAt: currentIndex)
+            delegate?.cards(self, beforeSwipingItemAt: currentIndex)
         }
         if let firstCard = visibleCards.first {
             xFromCenter = gestureRecognizer.translation(in: firstCard).x  // positive for right swipe, negative for left
@@ -202,7 +208,7 @@ private extension SwipeableCards {
         UIView.animate(withDuration: 0.3, animations: {
             card.center = finishPoint
         }) { (Bool) in
-            self.delegate?.cards?(self, didRightRemovedItemAt: self.currentIndex)
+            self.delegate?.cards(self, didRightRemovedItemAt: self.currentIndex)
             self.cardSwipedAction(card)
         }
     }
@@ -211,7 +217,7 @@ private extension SwipeableCards {
         UIView.animate(withDuration: 0.3, animations: {
             card.center = finishPoint
         }) { (Bool) in
-            self.delegate?.cards?(self, didLeftRemovedItemAt: self.currentIndex)
+            self.delegate?.cards(self, didLeftRemovedItemAt: self.currentIndex)
             self.cardSwipedAction(card)
         }
     }
@@ -242,7 +248,7 @@ private extension SwipeableCards {
                 card.frame = cardFrame
                 visibleCards.append(card)
             }
-            delegate?.cards?(self, didRemovedItemAt: currentIndex)
+            delegate?.cards(self, didRemovedItemAt: currentIndex)
             currentIndex += 1
             layoutCards()
         }
