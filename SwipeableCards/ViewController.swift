@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCardsDelegate, UITableViewDelegate {
+class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCardsDelegate {
     
     @IBOutlet weak var cardsHeight: NSLayoutConstraint!
     @IBOutlet weak var cardsWidth: NSLayoutConstraint!
@@ -93,6 +93,8 @@ class ViewController: UIViewController, SwipeableCardsDataSource, SwipeableCards
     func cards(_ cards: SwipeableCards, didRemovedItemAt index: Int) {
         print("index of removed card:\(index)")
     }
+    
+    
 
 }
 
