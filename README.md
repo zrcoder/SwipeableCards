@@ -39,7 +39,7 @@ Here is an example:<br>
         return cardsData.count
     }
     func view(for cards: SwipeableCards, index: Int, reusingView: UIView?) -> UIView {
-        var label: UILabel? = view as? UILabel
+        var label: UILabel? = reusingView as? UILabel
         if label == nil {
             let labelFrame = CGRect(x: 0, y: 0, width: cardsWidth.constant - 30, height: cardsHeight.constant - 20)
             label = UILabel(frame: labelFrame)
