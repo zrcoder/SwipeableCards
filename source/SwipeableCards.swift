@@ -110,7 +110,6 @@ public class SwipeableCards: UIView {
     fileprivate var xFromCenter: CGFloat = 0
     fileprivate var yFromCenter: CGFloat = 0
     fileprivate var originalPoint = CGPoint.zero
-
 }
 
 // MARK: - Private
