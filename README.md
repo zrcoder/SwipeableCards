@@ -9,6 +9,8 @@ There are only visible cards in memory, after you drag and removed the top one, 
 You can find an Objective-C version here:<br>
 你可以在这里找到Objective-C版：[iCards](https://github.com/DingHub/iCards)<br>
 
+这里有一篇：[《探索之旅：代理原理》](http://www.swifthumb.com/thread-14968-1-1.html)，可作为iCards的详细说明文档。
+
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/0.png)
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/1.png)
 ![SwipeableCards](https://github.com/DingHub/ScreenShots/blob/master/iCards/3.png)
