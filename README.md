@@ -19,7 +19,7 @@ Usage:<br>
 ---
 Here is an example:<br>
 用法示例：<br>
-```
+```swift
     @IBOutlet weak var cards: SwipeableCards!
     var cardsData = [Int]()
     
